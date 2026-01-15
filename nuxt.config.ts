@@ -8,9 +8,16 @@ export default defineNuxtConfig({
     'nuxt-studio'
   ],
   css: ['~/assets/css/main.css'],
-  content: {
-    preview: {
-      api: 'https://api.nuxt.studio'
+  nitro: {
+    prerender: {
+      routes: [
+        '/'
+      ],
+      crawlLinks: true,
+      autoSubfolderIndex: false
     }
-  }
+  },
+  experimental: {
+    asyncContext: true
+  },
 })

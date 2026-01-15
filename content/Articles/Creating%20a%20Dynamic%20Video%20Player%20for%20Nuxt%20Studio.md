@@ -2,14 +2,14 @@
 title: Creating a Dynamic Video Player for Nuxt Studio
 date: 2026-01-13T05:00:00.000Z
 description: Learn how to make a video player component that switches embeded players based on the url given
-image: /Untitled.png
+image: /articles/custom-video-component/custom-video-component-thumbnail.jpg
 navigation:
   description: Learn how to make a video player component that switches embeded players based on the url given
-subtitle: Learn how to make a video player component that switches embeded players based on the url given
 tags:
   - Programming
   - Technical
   - Web Design
+subtitle: Learn how to make a video player component that switches embeded players based on the url given
 ---
 
 ## Introduction

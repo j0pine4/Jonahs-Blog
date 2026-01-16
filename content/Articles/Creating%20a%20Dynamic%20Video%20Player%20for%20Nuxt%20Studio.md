@@ -60,3 +60,161 @@ Here it is from a code standpoint, very simple. Just a single URL:
 ```
 
 ## How it works
+
+There are three parts to this component.
+
+### Main Component
+
+This is the central hub that's sole responsibility is to parse the URL and see what player component to use.
+
+```ts [videoPlayer.vue]
+<template>
+    <component :is="determineVideoPlayer()" v-bind="props"></component>
+</template>
+
+<script setup lang="ts">
+
+import { resolveComponent } from 'vue'
+
+const props = defineProps<{
+    url: string
+}>();
+
+const youtubePlayer = resolveComponent('video-player-youtube');
+const vimeoPlayer = resolveComponent('video-player-vimeo');
+
+const videoPlayerIndex = {
+    vimeo: vimeoPlayer,
+    youtube: youtubePlayer
+};
+
+type VideoProvider = keyof typeof videoPlayerIndex;
+
+const determineVideoPlayer = () => {
+    const { hostname } = new URL(props.url);
+
+    const key = (Object.keys(videoPlayerIndex) as VideoProvider[]).find(provider => hostname.toLowerCase().includes(provider));
+
+    return key ? videoPlayerIndex[key] : undefined;
+};
+
+</script>
+```
+
+#### Dynamic Component
+
+Vue 3 has the option of creating dynamic components that are selected based on code based logic instead of v-if statements in the html template.
+
+```ts
+<template>
+    <component :is="determineVideoPlayer()" v-bind="props"></component>
+</template>
+```
+
+I use a "determineVideoPlayer()" function to parse the URL and return the proper component to display
+
+```ts
+const youtubePlayer = resolveComponent('video-player-youtube');
+const vimeoPlayer = resolveComponent('video-player-vimeo');
+
+const videoPlayerIndex = {
+    vimeo: vimeoPlayer,
+    youtube: youtubePlayer
+};
+
+type VideoProvider = keyof typeof videoPlayerIndex;
+
+const determineVideoPlayer = () => {
+    const { hostname } = new URL(props.url);
+
+    const key = (Object.keys(videoPlayerIndex) as VideoProvider[]).find(provider => hostname.toLowerCase().includes(provider));
+
+    return key ? videoPlayerIndex[key] : undefined;
+};
+```
+
+Instead of nesting if else statements, I wanted to use a solution that could scale infinitely. I use a videoPlayerIndex object to store a key value pair of providers with their vue component (I'll go over those shortly)
+
+The function checks to see if the particular key (youtube or vimeo in this case) is included in the base url passed to the component. This is the main domain so a long youtube link like "<https://www.youtube.com/watch?v=dQw4w9WgXcQ>" becomes just "www\.youtube.com". 
+
+The function sees that there is a key of "youtube" and passes the value of that key to the dynamic component.
+
+I can add an infinite number of keys to this object without ever touching my determineVideoPlayer() again.
+
+### Individual Players
+
+Each player has its own dedicated component. Here are the two I am using:
+
+```ts [vimeo.vue]
+<template>
+    <div style="padding:56.25% 0 0 0;position:relative;"><iframe :src="buildVimeoURL" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Pixar BOF SIGGRAPH 2022"></iframe></div>
+</template>
+
+<script setup lang="ts">
+
+const props = defineProps<{
+    url: string
+}>();
+
+const buildVimeoURL = computed( () => {
+    const url = new URL(props.url);
+    const urlParsed = url.pathname.replaceAll('/', '');
+
+    let outputURL = `https://player.vimeo.com/video/${urlParsed}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`
+
+    return outputURL;
+})
+
+
+</script>
+```
+
+```ts [youtube.vue]
+<template>
+    <iframe width="100%" height="400" :src="`https://www.youtube.com/embed/${parseYoutubeURL(props.url)}`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</template>
+
+<script setup lang="ts">
+
+const props = defineProps<{
+    url: string
+}>();
+
+const parseYoutubeURL = (url: string) => {
+
+    try {
+        const parsedUrl = new URL(url);
+
+        // youtu.be/VIDEO_ID
+        if (parsedUrl.hostname === 'youtu.be') {
+            return parsedUrl.pathname.slice(1);
+        }
+
+        // youtube.com/watch?v=VIDEO_ID
+        if (parsedUrl.searchParams.has('v')) {
+            return parsedUrl.searchParams.get('v');
+        }
+
+        // youtube.com/embed/VIDEO_ID
+        // youtube.com/shorts/VIDEO_ID
+        const pathMatch = parsedUrl.pathname.match(
+            /^\/(embed|shorts)\/([^/?]+)/
+        );
+
+        if (pathMatch) {
+            return pathMatch[2];
+        }
+
+        return null;
+    } catch (e) {
+        return null;
+    }
+
+}
+
+</script>
+```
+
+## Conclusion
+
+And just like that we have a scalable video player that all I do is pass a single URL. Now this isn't perfect and I could definitely improve on it to make it more production ready but for a personal blog, it does what I need!

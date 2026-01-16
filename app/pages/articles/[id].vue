@@ -11,7 +11,7 @@
 
     <UContainer>
 
-        <UPage>
+        <UPage :ui="{right: 'lg:col-span-2 order-last'}">
             <template #left>
                 <UContentToc color="warning" :links="post?.body?.toc?.links" />
             </template>

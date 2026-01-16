@@ -6,10 +6,10 @@ image: https://assets.renderman.pixar.com/images-pixar/hoppers-bkg-homepage.webp
 seo:
   title: How to texture like Pixar file
   description: L
-subtitle: Learn how Pixar gives their films life through procedural texturing techniques
 tags:
   - Technical
   - Art
+subtitle: Learn how Pixar gives their films life through procedural texturing techniques
 ---
 
 ## Introduction
@@ -46,7 +46,7 @@ This is the primary package they use for 3d modeling. According to this admitted
 
 :video-player{url="https://www.youtube.com/watch?v=HC85HF-1qs0"}
 
-Fun fact, the subdivision surface modifier in blender actually uses opensubdiv under the hood <https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/subdivision_surface.html>
+Fun fact, the subdivision surface modifier in blender actually uses opensubdiv under the hood [Blender Doc](https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/subdivision_surface.html)
 
 ### Flow
 
@@ -191,17 +191,14 @@ According to their “Technical Toy Story” talk. The general workflow is as fo
 
 Pixar loves this so much that it’s built into Renderman. The preset browser allows you to create material libraries and reuse them across projects.
 
-::video-player{url="https://www.youtube.com/watch?v=-OdzP_m7_zs"}
-::
+:video-player{url="https://www.youtube.com/watch?v=-OdzP_m7_zs"}
 
 Blender also leans into this concept with the asset library features that go beyond just materials.
 
-::video-player{url="https://www.youtube.com/watch?v=jpz13q52YWM"}
-::
+:video-player{url="https://www.youtube.com/watch?v=jpz13q52YWM"}
 
 The best part about this approach is that you can reuse these materials across multiple projects or even download third party material libraries like the ones below:
 
 <https://renderman.pixar.com/fun-da-mental-materials>
 
-::video-player{url="https://www.youtube.com/watch?v=10PNjs2FZqc"}
-::
+:video-player{url="https://www.youtube.com/watch?v=10PNjs2FZqc"}

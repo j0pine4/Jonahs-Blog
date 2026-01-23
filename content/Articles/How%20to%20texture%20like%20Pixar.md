@@ -146,7 +146,11 @@ To summarize Paul’s breakdown, there are several categories of geometry driven
 
 > Ambient Occlusion (AO) is a rendering technique that simulates contact and corner shadows: areas that receive less ambient light are darkened.
 
-What is this useful for? Dirt of course! We can use ambient occlusion as a mask to place dirt where is would naturally occur in real life
+![ambient-occlusion-example](/articles/how-to-texture-like-pixar/ambient-occlusion-example.jpg)
+
+What is this useful for? Dirt of course! We can use ambient occlusion as a mask to place dirt or rust where is would naturally occur in real life. 
+
+![AO%20Examples](/articles/how-to-texture-like-pixar/AO%20Examples.png)
 
 ### Curvature
 

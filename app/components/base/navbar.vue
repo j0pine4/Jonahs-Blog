@@ -1,4 +1,21 @@
 <template>
+
+    <UModal 
+        v-model:open="subscribeModalOpen"
+        title="Subscribe for more articles"
+        :close="{
+            color: 'neutral',
+            variant: 'outline',
+            class: 'rounded-full'
+        }"
+    >
+        <template #body>
+            <div class="p-3">
+                <mailchimp></mailchimp>
+            </div>
+        </template>
+    </UModal>
+
     <section class="sticky top-0 z-50 bg-white/50 backdrop-blur-lg">
         <nav class="px-4 lg:px-24 flex justify-between items-center py-6">
             <NuxtLink to="/" class="font-bold text-2xl"> Jonah's Journal </NuxtLink>
@@ -12,9 +29,9 @@
                 </li>
                 <!-- <li class="hover-active"> Recent </li>
                 <li class="hover-active"> Search </li> -->
-                <!-- <li class="bg-black text-white px-4 py-2 rounded-full hover-active">
+                <li @click="subscribeModalOpen=true" class="bg-black text-white px-4 py-2 rounded-full cursor-pointer">
                     Subscribe
-                </li> -->
+                </li>
             </ul>
         </nav>
     
@@ -28,5 +45,7 @@
 const props = defineProps<{
     tight?: boolean;
 }>();
+
+const subscribeModalOpen = ref(false);
 
 </script>

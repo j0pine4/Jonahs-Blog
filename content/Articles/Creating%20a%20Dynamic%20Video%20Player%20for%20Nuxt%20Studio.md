@@ -14,11 +14,17 @@ subtitle: Learn how to make a video player component that switches embeded playe
 
 ## Introduction
 
-Nuxt Studio is amazing. It bridges the gap between no-code CMS solutions such as Wordpress or Squarespace and fully custom web applications built by frameworks such as React or Vue. 
+Nuxt Studio is amazing. It bridges the gap between no-code CMS solutions such as Wordpress or Squarespace and fully custom web applications built in frameworks such as React or Vue. 
 
-Nuxt studio is a standalone module that you can add to any Nuxt Content based site and edit your markdown files using their all new visual editor.
+[Nuxt studio](https://nuxt.studio/) is a standalone module that you can add to any Nuxt Content based site and edit your posts using their all new visual editor.
 
 > Self-hosted CMS for your Nuxt Content website. Edit content visually, manage media, and publish changes from your production site.
+
+Just install it with a single command
+
+```bash [terminal]
+npx nuxt module add nuxt-studio
+```
 
 The release of this new module honestly inspired me to make this very blog so thanks Nuxt Studio!
 
@@ -26,23 +32,23 @@ The release of this new module honestly inspired me to make this very blog so th
 
 The true power of Nuxt Content is that you can leverage the power of Vue/Nuxt from within your markdown files.
 
-For example here is a "callout" that I can customize and use inside this blog post. This is just a vue component that I can use.
+For example here is a "callout" that I can customize and use inside this blog post. This is just a vue component that I can use anywhere I'd like.
 
 ::callout{color="warning"}
 Here is my super cool callout
 ::
 
-What's extra cool is that I can make my own components and use them as well.
+What's extra cool is that I can make my own custom components and use them as well.
 
 ## What are we trying to do?
 
-My blog can be technical at times and I like to include videos describing various topics. These videos aren't saved to the site, but links from other players such as Youtube or Vimeo.
+My blog can be technical at times and I like to include videos describing various topics. These videos aren't saved to the site, but are links from other players such as Youtube or Vimeo.
 
-I could just provide a boring old link to the video but I want my posts to be more exciting than that! The reader should be able to watch without leaving.
+I could just provide a boring old [link to the video](https://www.youtube.com/watch?v=dQw4w9WgXcQ) but I want my posts to be more exciting than that! The reader should be able to watch without leaving.
 
-### Multiple Players
+### Multiple Types of Players
 
-That brings us to our main issue.  There are MANY video players/services out there. My goal was to use a single custom component that could scale to any number of players and only require a single url. Youtube? Vimeo? Something else? Doesn't matter. 
+That brings us to our main issue.  There are MANY video players/services out there. My goal was to use a single custom component that could scale to any number of players and only require a single URL. Youtube? Vimeo? Something else? Doesn't matter. 
 
 ### Example
 
@@ -61,7 +67,10 @@ Here it is from a code standpoint, very simple. Just a single URL:
 
 ## How it works
 
-There are three parts to this component.
+There are two parts to this component that make this system work.
+
+1. A main component that decides what player to use based on the URL given
+2. The individual player components themselves
 
 ### Main Component
 
@@ -103,7 +112,9 @@ const determineVideoPlayer = () => {
 
 #### Dynamic Component
 
-Vue 3 has the option of creating dynamic components that are selected based on code based logic instead of v-if statements in the html template.
+This is a feature I've never used but Vue 3 has the option of creating [dynamic components](https://vuejs.org/guide/essentials/component-basics#dynamic-components) that are selected based on code based logic instead of nesting v-if statements in the html template.
+
+Using the "\:is" prop, I can tell the \<component> tag what to render through code and switch it in real-time based on any logic I decide.
 
 ```ts
 <template>
@@ -111,7 +122,7 @@ Vue 3 has the option of creating dynamic components that are selected based on c
 </template>
 ```
 
-I use a "determineVideoPlayer()" function to parse the URL and return the proper component to display
+In this case the "determineVideoPlayer()" function contains the logic used to parse the URL and return the proper component to display
 
 ```ts
 const youtubePlayer = resolveComponent('video-player-youtube');
@@ -135,7 +146,7 @@ const determineVideoPlayer = () => {
 
 Instead of nesting if else statements, I wanted to use a solution that could scale infinitely. I use a videoPlayerIndex object to store a key value pair of providers with their vue component (I'll go over those shortly)
 
-The function checks to see if the particular key (youtube or vimeo in this case) is included in the base url passed to the component. This is the main domain so a long youtube link like "<https://www.youtube.com/watch?v=dQw4w9WgXcQ>" becomes just "www\.youtube.com". 
+The function checks to see if the particular key (youtube or vimeo in this case) is included in the base url passed to the component. This is the main domain so a long youtube link like "<https://www.youtube.com/watch?v=dQw4w9WgXcQ>" becomes just "[www.youtube.com".]() 
 
 The function sees that there is a key of "youtube" and passes the value of that key to the dynamic component.
 
@@ -143,7 +154,7 @@ I can add an infinite number of keys to this object without ever touching my de
 
 ### Individual Players
 
-Each player has its own dedicated component. Here are the two I am using:
+Each player has its own dedicated component. Here are the two I am using. They are just the default boilerplate given by the providers with dynamic URLs.
 
 ```ts [vimeo.vue]
 <template>

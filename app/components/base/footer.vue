@@ -13,6 +13,8 @@
             <!-- <li>Subscribe</li> -->
         </ul>
 
+        <!-- <mailchimp></mailchimp> -->
+
         <UMarquee :overlay="false">
             <h1 class="text-9xl md:text-[10vw] my-12 md:my-24 font-bold text-white">
                 Web Design. Fitness. Nutrition. Digital Art. Basketball. Game Design.

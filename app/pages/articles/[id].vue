@@ -9,7 +9,7 @@
     />
 
 
-    <UContainer>
+    <UContainer class="mb-12">
 
         <UPage :ui="{right: 'lg:col-span-2 order-last'}">
             <template #left>
@@ -30,6 +30,10 @@
             </div>
 
             <ContentRenderer v-if="post" :value="post" />
+
+            <USeparator class="my-6"></USeparator>
+
+            <mailchimp></mailchimp>
 
             <template #right>
                 <aside class="flex-col gap-20">

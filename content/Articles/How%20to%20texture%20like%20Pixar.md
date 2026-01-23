@@ -116,7 +116,13 @@ Look at these examples of miniature sets and see how they compare to Pixar scene
 
 Materials are photoreal but things like wood grains are very large, bevels are much more prominent than real world counterparts and items aren’t aligned perfectly to one another.
 
+![Miniatures](/articles/how-to-texture-like-pixar/Miniatures.png)
+
 They look as if a person was gluing them in by hand in a small space.
+
+Here are some screenshots from various Pixar films. You can see how similar the style really is.
+
+![Pixar\_Miniatures](/articles/how-to-texture-like-pixar/Pixar_Miniatures.png)
 
 ## Procedural Textures
 

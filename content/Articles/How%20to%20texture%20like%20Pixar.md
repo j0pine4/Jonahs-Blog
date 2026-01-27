@@ -72,7 +72,7 @@ Down below I have an example of two objects with the same material applied. Look
 
 ![geo\_details](/articles/how-to-texture-like-pixar/geo_details.png)
 
-These objects share the exact same material but the right side has the geometric detail to that the procedural shader can use to place elements like scratches on the edges to reveal the metal layer underneath or placing rust in the crevices.
+These objects share the exact same material but the right side has additional details modeled in that the procedural shader can use. Elements like scratches on the edges or the rust in the crevices rely on this extra information.
 
 ### Gathering Reference for Pixar Inspired Modeling
 

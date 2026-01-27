@@ -2,7 +2,7 @@
 title: How to texture like Pixar
 date: 2025-12-23T05:00:00.000Z
 description: Learn how Pixar gives their films life through procedural texturing techniques
-image: https://assets.renderman.pixar.com/images-pixar/hoppers-bkg-homepage.webp
+image: /articles/how-to-texture-like-pixar/TextureLikePixar.png
 seo:
   title: How to texture like Pixar file
   description: L
@@ -32,51 +32,11 @@ These techniques are software agnostic and can be applied to any project. 
 
 For instance I used many of them here to create this Old Fishing Hut Scene 100% in [Blender](https://www.blender.org/)
 
-![Untitled](/Untitled.png)
-
-## Software
-
-From what I’ve gathered Pixar uses many packages. Most of them are available to the public but they do have some internal tools. This isn’t a full list but here are the most notable ones.
-
-I’ll keep the description of each very brief because this isn’t really about what software they use but it is interesting. Feel free to use whatever package you’d like to build your art. Don’t feel like just because you don’t have access to the same tools, that you can’t make great art using the same principles.
-
-### Maya
-
-This is the primary package they use for 3d modeling. According to this admittedly old video, they rely heavily on crease sets and [OpenSubdiv](https://graphics.pixar.com/opensubdiv/docs/intro.html) to make the objects in their films.
-
-:video-player{url="https://www.youtube.com/watch?v=HC85HF-1qs0"}
-
-Fun fact, the subdivision surface modifier in blender actually uses opensubdiv under the hood [Blender Doc](https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/subdivision_surface.html)
-
-### Flow
-
-Flow is an internal tool used by Pixar to create reusable procedural materials for their films.
-
-According to this video it is used for props/background assets but they are hoping to use it more for characters and hero assets in the future. It uses a node based interface which is very similar to the shader graph editor you would use in any modern render engine or 3D package.
+![fishingHut](/articles/how-to-texture-like-pixar/fishingHut.png)
 
 :video-player{url="https://vimeo.com/1153663442?share=copy&fl=sv&fe=ci"}
 
-### Presto
-
-While they use maya for modeling, they actually rig and animate using an in-house software called presto.
-
-Here is a demonstration:
-
-:video-player{url="https://www.youtube.com/watch?v=hnFSVx7NhmM"}
-
-### Houdini
-
-Houdini is used at Pixar for special effects like fire, smoke water etc
-
-![luca\_water](/articles/how-to-texture-like-pixar/luca_water.jpg)
-
-### Katana
-
-Katana is used for final lighting and rendering.
-
-:video-player{url="https://www.youtube.com/watch?v=LACmRpMYOak"}
-
-### Renderman
+## Renderman
 
 [Renderman](https://renderman.pixar.com/) is where the magic lives. It’s a render engine that is responsible for calculating the final look of their films as well as many other studios go to.
 
@@ -86,19 +46,13 @@ It’s seen as the gold standard engine and is available for free for non-commer
 
 :video-player{url="https://www.youtube.com/watch?v=TASCNvMwu70"}
 
-### USD
-
-USD is a file format that works as the glue that connects all of the different software together.
-
-:video-player{url="https://www.youtube.com/watch?v=tH9_JaZs3-E"}
-
 ## Modeling
 
-Pixar relies heavily on procedural shading. (More on this later) this requires that the environments contain lots of geometry driven details instead of faking it via textures.
+Pixar relies heavily on procedural shading. (More on this later) this requires that the models contain lots of geometry driven details to provide information for the shaders to use.
 
 What do I mean by this? Look at some examples of behind the scenes footage from their films.
 
-Look at how they modeled the individual tiles in this bathroom set from Turning Red.
+Look at how they modeled the individual tiles in this bathroom set from Turning Red. Each tile was modeled and will give the shader information it can use to make it look more interesting.
 
 ![turningRed\_bathroom](/articles/how-to-texture-like-pixar/turningRed_bathroom.png)
 
@@ -107,6 +61,18 @@ Or check out this behind the scenes look at Luca to see the details they include
 :video-player{url="https://www.youtube.com/watch?v=RGG0LAxazwg"}
 
 Gaston Ugarte is a modeling artist at Pixar and a glance at his portfolio includes examples of how detailed their production models are. <https://www.tucumanian.com/general-clean>
+
+![luca\_clay](/articles/how-to-texture-like-pixar/luca_clay.png)
+
+### Why Geometry-Driven vs Texture-Driven?
+
+Pixar has thousands of objects that populate their films. It just isn't practical to manually UV Unwrap every object and apply custom texture maps. This means shaders are made to utilize data from the models to look a certain way.
+
+Down below I have an example of two objects with the same material applied. Look at how the extra geometry helps with the procedural shader.
+
+![geo\_details](/articles/how-to-texture-like-pixar/geo_details.png)
+
+These objects share the exact same material but the right side has the geometric detail to push the procedural shader.
 
 ### Gathering Reference for Pixar Inspired Modeling
 
@@ -124,9 +90,31 @@ Here are some screenshots from various Pixar films. You can see how similar the 
 
 ![Pixar\_Miniatures](/articles/how-to-texture-like-pixar/Pixar_Miniatures.png)
 
+#### Why does this matter?
+
+The size of the bevels, amount of details in the model and scale of patterns such as wood grain all feed into the procedural materials and contribute to the final look of an object.
+
+## Using Layered Materials
+
+Objects in the real world are complex. The overall look of an object is often made up by more than one material.
+
+![material\_layers\_example\_01](/articles/how-to-texture-like-pixar/material_layers_example_01.jpg)
+
+A base metal is covered with a red paint. The red paint is covered with rust, dirt, and dust. As 3D artist we can capture this several ways. Pixar (and many other studios) use a layered shader approach to build up these looks in their materials.
+
+Here is documentation on the pxrLayeredSurface. They love this workflow so much that they made a dedicated shader for it!
+
+<https://rmanwiki-26.pixar.com/space/REN26/19661463/PxrLayerSurface>
+
+Why build materials this way? Other than the fact it closer emulates the real world, it can greatly simplify our lookdev workflow and provide a good mental model of how we can build our shaders up.
+
+![material\_layers](/articles/how-to-texture-like-pixar/material_layers.png)
+
 ## Procedural Textures
 
-This is the meat and potatoes of this whole write-up and what the original video didn’t even touch. Proceduralism.
+This is the meat and potatoes of this whole write-up and what the original video didn’t even touch. Proceduralism. Watch the below video and see how Pixar uses their internal texturing program Flow, to build up reusable shader networks in their films.
+
+:video-player{url="https://www.youtube.com/watch?v=TASCNvMwu70"}
 
 Instead of manually unwrapping and texturing every prop, just make a reusable material that can be applied to any object. This comes in especially handy in very large scenes with many props/objects. Unwrapping a single model isn’t too bad, but unwrapping hundreds or thousands is just too much to handle.
 
@@ -158,6 +146,8 @@ Curvature is the inverse of ambient occlusion.
 
 Instead of targeting where objects or faces meet, curvature targets the outer edges.
 
+![distressed\_wood](/articles/how-to-texture-like-pixar/distressed_wood.png)
+
 We can use this to peel back paint where the edges rubbed off or add scratches to corners of wood like they would occur in the real world.
 
 Here is a guide on targeting the edges in blender:
@@ -188,7 +178,7 @@ Another solution is procedural noise. These are patterns that are generated by m
 
 Below are some common noise patterns that can be used to spice up a material:
 
-### Using a Material Library
+## Using a Material Library
 
 :video-player{url="https://vimeo.com/353633376"}
 

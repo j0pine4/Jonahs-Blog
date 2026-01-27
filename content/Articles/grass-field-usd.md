@@ -2,7 +2,7 @@
 title: Grass Field Usd
 date: 2025-02-11T05:00:00.000Z
 description: Learn how to create convincing grass while leveraging Houdini, Katana, and USD
-image: https://digitalcolony3d.wordpress.com/wp-content/uploads/2019/10/grassnuke_v004.png?w=1024
+image: /articles/how-to-texture-like-pixar/GrassUSD.png
 seo:
   title: Grass Field Usd
   description: Over the past few months, I’ve been doing a bit of research on industry workflows/trends and there are two topics that kept grabbing my attention. Houdini and USD. So of course the logical progression was to create a personal project using both! But what to make? After a flurry of awful ideas, I figured that grass seemed to be the perfect candidate. I could use Houdini to generate the terrain and scatter the geometry, use USD to pass all that data along to Katana, and finally get those sweet renders out using Renderman. So I have my subject and tools lined up, now it’s time to build the USD plugins and get to work. Easy right? Well what followed was two months of stumbling through forums and online resources to iron out all of the wrinkles that came with this project. All in all I learned plenty and I’m excited to pass some of that on to the public!

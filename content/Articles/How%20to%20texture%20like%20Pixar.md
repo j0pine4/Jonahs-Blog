@@ -72,11 +72,11 @@ Down below I have an example of two objects with the same material applied. Look
 
 ![geo\_details](/articles/how-to-texture-like-pixar/geo_details.png)
 
-These objects share the exact same material but the right side has the geometric detail to push the procedural shader.
+These objects share the exact same material but the right side has the geometric detail to that the procedural shader can use to place elements like scratches on the edges to reveal the metal layer underneath or placing rust in the crevices.
 
 ### Gathering Reference for Pixar Inspired Modeling
 
-I’ve found that the best reference for pixar style scenes are miniatures. Pixar tends to use photorealistic materials with stylized proportions and bevels. Not stylized in a wonky Dr Suess kind of way like illumination does but reality-adjacent.
+I’ve found that the best reference for Pixar style scenes are miniatures. Pixar tends to use photorealistic materials with stylized proportions and bevels. Not stylized in a wonky Dr Suess kind of way like illumination does but reality-adjacent.
 
 Look at these examples of miniature sets and see how they compare to Pixar scenes.
 
@@ -94,6 +94,8 @@ Here are some screenshots from various Pixar films. You can see how similar the 
 
 The size of the bevels, amount of details in the model and scale of patterns such as wood grain all feed into the procedural materials and contribute to the final look of an object.
 
+Every part of the pipeline contributes to the final look of a render. 
+
 ## Using Layered Materials
 
 Objects in the real world are complex. The overall look of an object is often made up by more than one material.
@@ -109,6 +111,11 @@ Here is documentation on the pxrLayeredSurface. They love this workflow so much 
 Why build materials this way? Other than the fact it closer emulates the real world, it can greatly simplify our lookdev workflow and provide a good mental model of how we can build our shaders up.
 
 ![material\_layers](/articles/how-to-texture-like-pixar/material_layers.png)
+
+Here is a tutorial on how to do this in Blender:
+
+::video-player{url="https://www.youtube.com/watch?v=vG8USHUjQ6g"}
+::
 
 ## Procedural Textures
 

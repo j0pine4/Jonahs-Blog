@@ -26,7 +26,7 @@ Pixar is fairly open with their process and I have amassed quite the collection 
 
 ## Disclaimer
 
-I have never worked at Pixar. I can’t with 100% certainty say this is the current workflow of the studio. While I can’t guarantee this, I can say that all of the information shared are from either Pixar employees or behind the scenes videos. All sources have been provided to you.
+I have never worked at Pixar. I can’t with 100% certainty say this is the current workflow of the studio. While I can’t guarantee this, I can say that all of the information shared is either from Pixar employees or behind the scenes videos they have released. All sources have been provided to you.
 
 These techniques are software agnostic and can be applied to any project. 
 
@@ -34,21 +34,9 @@ For instance I used many of them here to create this Old Fishing Hut Scene 100% 
 
 ![fishingHut](/articles/how-to-texture-like-pixar/fishingHut.png)
 
-:video-player{url="https://vimeo.com/1153663442?share=copy&fl=sv&fe=ci"}
-
-## Renderman
-
-[Renderman](https://renderman.pixar.com/) is where the magic lives. It’s a render engine that is responsible for calculating the final look of their films as well as many other studios go to.
-
-:video-player{url="https://www.youtube.com/watch?v=N0WV0GB91sA"}
-
-It’s seen as the gold standard engine and is available for free for non-commercial use and even works with Blender
-
-:video-player{url="https://www.youtube.com/watch?v=TASCNvMwu70"}
-
 ## Modeling
 
-Pixar relies heavily on procedural shading. (More on this later) this requires that the models contain lots of geometry driven details to provide information for the shaders to use.
+Pixar relies heavily on procedural shading. (More on this later) this requires that the models contain a lot of geometry based details to provide information for the shaders to use.
 
 What do I mean by this? Look at some examples of behind the scenes footage from their films.
 
@@ -76,11 +64,11 @@ These objects share the exact same material but the right side has additional de
 
 ### Gathering Reference for Pixar Inspired Modeling
 
-I’ve found that the best reference for Pixar style scenes are miniatures. Pixar tends to use photorealistic materials with stylized proportions and bevels. Not stylized in a wonky Dr Suess kind of way like illumination does but reality-adjacent.
+I’ve found that the best reference for Pixar style scenes are miniatures. Pixar tends to use photorealistic materials with stylized proportions and bevels. Not stylized in a wonky Dr Suess kind of way but stylized in how they like to play with the scale of bevels and patterns.
 
 Look at these examples of miniature sets and see how they compare to Pixar scenes.
 
-Materials are photoreal but things like wood grains are very large, bevels are much more prominent than real world counterparts and items aren’t aligned perfectly to one another.
+Materials are photoreal but things like wood grains are very large, edges are much softer than real world counterparts and items aren’t aligned perfectly to one another.
 
 ![Miniatures](/articles/how-to-texture-like-pixar/Miniatures.png)
 
@@ -94,7 +82,7 @@ Here are some screenshots from various Pixar films. You can see how similar the 
 
 The size of the bevels, amount of details in the model and scale of patterns such as wood grain all feed into the procedural materials and contribute to the final look of an object.
 
-Every part of the pipeline contributes to the final look of a render. 
+Every part of the pipeline contributes to the final look of a render and must be accounted for if you are trying to emulate a certain look.
 
 ## Using Layered Materials
 
@@ -108,9 +96,11 @@ Here is documentation on the pxrLayeredSurface. They love this workflow so much 
 
 [pxrLayerSurface Documentation](https://rmanwiki-26.pixar.com/space/REN26/19661463/PxrLayerSurface)
 
-Why build materials this way? Other than the fact it closer emulates the real world, it can greatly simplify our lookdev workflow and provide a good mental model of how we can build our shaders up.
+This provides a good mental model of how we can build our shaders up. We can save each of these layers as separate materials and use them on many objects throughout our project (or other projects).
 
 ![material\_layers](/articles/how-to-texture-like-pixar/material_layers.png)
+
+This approach is very scalable. For instance, we can swap out the metal/rust layer for wood and change the mask and voila, we have painted wood instead of metal.
 
 Here is a tutorial on how to do this in Blender:
 
@@ -120,7 +110,7 @@ Here is a tutorial on how to do this in Blender:
 
 This is the meat and potatoes of this whole write-up and what the original video didn’t even touch. Proceduralism. Watch the below video and see how Pixar uses their internal texturing program Flow, to build up reusable shader networks in their films.
 
-:video-player{url="https://www.youtube.com/watch?v=TASCNvMwu70"}
+:video-player{url="https://vimeo.com/1153663442"}
 
 Instead of manually unwrapping and texturing every prop, just make a reusable material that can be applied to any object. This comes in especially handy in very large scenes with many props/objects. Unwrapping a single model isn’t too bad, but unwrapping hundreds or thousands is just too much to handle.
 
@@ -128,11 +118,13 @@ If you are unfamiliar with UV Unwrapping here is a good explanation
 
 :video-player{url="https://www.youtube.com/watch?v=Yx2JNbv8Kpg"}
 
-These procedural materials use geometry based inputs to add details such as dirt, dust, edge damages etc. Here is a great video by Paul Kanyuk describing how pixar uses this technique.
+These procedural materials use geometry based inputs to add details such as dirt, dust, edge damages etc. Here is the example from earlier to illustrate this concept again:
+
+![geo\_details](/articles/how-to-texture-like-pixar/geo_details.png)
+
+And here is a great video by Pixar Technical Artist Paul Kanyuk describing how pixar uses this technique.
 
 :video-player{url="https://www.youtube.com/watch?v=vYi_Dh8ROSg&t=866s"}
-
-The flow video from earlier also goes into how they are still using proceduralism in their films.
 
 To summarize Paul’s breakdown, there are several categories of geometry driven details you can apply to scenes
 
@@ -146,15 +138,16 @@ What is this useful for? Dirt of course! We can use ambient occlusion as a mask 
 
 ![AO%20Examples](/articles/how-to-texture-like-pixar/AO%20Examples.png)
 
+::video-player{url="https://www.youtube.com/watch?v=gQ3y4OGOSTc"}
+::
+
 ### Curvature
 
-Curvature is the inverse of ambient occlusion.
+![curvature](/articles/how-to-texture-like-pixar/curvature.png)
 
-Instead of targeting where objects or faces meet, curvature targets the outer edges.
+We can use curvature to isolate the outside edges of our objects and emulate edge wear or damage, effects like peeling back paint where the edges rubbed off or adding scratches to corners of wood where they would naturally occur in the real world.
 
 ![distressed\_wood](/articles/how-to-texture-like-pixar/distressed_wood.png)
-
-We can use this to peel back paint where the edges rubbed off or add scratches to corners of wood like they would occur in the real world.
 
 Here is a guide on targeting the edges in blender:
 
@@ -168,11 +161,17 @@ Add things like dust or snow to the tops of your objects automatically. This is 
 
 Apply dirt or moss to the bottom of objects based on it’s location in the world.
 
+::video-player{url="https://www.youtube.com/watch?v=zMaZjx2JC_U"}
+::
+
 ### Projection Mapping
 
 If they don’t use UV Maps, how do they apply patterns to their objects? 
 
 Project them! This is typically referred to as “Triplanar Mapping” and it is essentially projecting a texture from all axes (XYZ) around your object and blending between them.
+
+::video-player{url="https://www.youtube.com/watch?v=vyNm3I16rHg"}
+::
 
 ### Procedural Noise Patterns
 
@@ -188,7 +187,7 @@ Below are some common noise patterns that can be used to spice up a material:
 
 :video-player{url="https://vimeo.com/353633376"}
 
-According to their “Technical Toy Story” talk. The general workflow is as follows.
+According to their “Technical Toy Story” talk. The general workflow at Pixar is as follows.
 
 1. Determine a list of materials based on the script
 2. Shading artists create reusable materials and save them to a library

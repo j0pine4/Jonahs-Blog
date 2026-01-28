@@ -18,13 +18,13 @@
 
     <section class="sticky top-0 z-50 bg-white/50 backdrop-blur-lg">
         <nav class="px-4 lg:px-24 flex justify-between items-center py-6">
-            <NuxtLink to="/" class="font-bold text-2xl"> Jonah's Journal </NuxtLink>
+            <NuxtLink to="/" class="font-bold text-xl lg:text-2xl"> Jonah's Journal </NuxtLink>
     
             <ul class="flex gap-8 items-center">
                 <li class="">
                     <NuxtLink to="/"> Home </NuxtLink>
                 </li>
-                <li class="">
+                <li class="hidden lg:block">
                     <NuxtLink to="#search"> Recent </NuxtLink>
                 </li>
                 <!-- <li class="hover-active"> Recent </li>

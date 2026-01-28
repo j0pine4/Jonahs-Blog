@@ -106,7 +106,7 @@ A base metal is covered with a red paint. The red paint is covered with rust, di
 
 Here is documentation on the pxrLayeredSurface. They love this workflow so much that they made a dedicated shader for it!
 
-<https://rmanwiki-26.pixar.com/space/REN26/19661463/PxrLayerSurface>
+[pxrLayerSurface Documentation](https://rmanwiki-26.pixar.com/space/REN26/19661463/PxrLayerSurface)
 
 Why build materials this way? Other than the fact it closer emulates the real world, it can greatly simplify our lookdev workflow and provide a good mental model of how we can build our shaders up.
 
@@ -114,8 +114,7 @@ Why build materials this way? Other than the fact it closer emulates the real wo
 
 Here is a tutorial on how to do this in Blender:
 
-::video-player{url="https://www.youtube.com/watch?v=vG8USHUjQ6g"}
-::
+:video-player{url="https://www.youtube.com/watch?v=vG8USHUjQ6g"}
 
 ## Procedural Textures
 

@@ -21,7 +21,7 @@
             <NuxtLink to="/" class="font-bold text-xl lg:text-2xl"> Jonah's Journal </NuxtLink>
     
             <ul class="flex gap-8 items-center">
-                <li class="">
+                <li class="hidden lg:block">
                     <NuxtLink to="/"> Home </NuxtLink>
                 </li>
                 <li class="hidden lg:block">

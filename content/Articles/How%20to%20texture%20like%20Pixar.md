@@ -16,7 +16,7 @@ subtitle: Learn how Pixar gives their films life through procedural texturing te
 
 I love Pixar and all their movies. My daughter and I have watched Soul probably 10 times this week and we have seen all the classics.
 
-As a former 3D artist I am amazed by all of their films. When I was a professional, I always tried to research the tools they use and how they build their films. That’s why I came across this video years ago and it's been living rent free in my head ever since.
+As a former 3D artist I am amazed by all of their films. When I was a professional, I always tried to research the tools they use and how they build them. That’s why I came across this video years ago and it's been living rent free in my head ever since.
 
 :video-player{url="https://www.youtube.com/watch?v=o_I6jxlN-Ck"}
 
@@ -36,15 +36,15 @@ For instance I used many of them here to create this Old Fishing Hut Scene 100% 
 
 ## Modeling
 
-Pixar relies heavily on procedural shading. (More on this later) this requires that the models contain a lot of geometry based details to provide information for the shaders to use.
+Pixar relies heavily on procedural shading (More on this later). This requires that the models contain a lot of geometry based details to provide information for the shaders to use.
 
 What do I mean by this? Look at some examples of behind the scenes footage from their films.
 
-Look at how they modeled the individual tiles in this bathroom set from Turning Red. Each tile was modeled and will give the shader information it can use to make it look more interesting.
+Look at how they modeled each tile in Turning Red. This will give the shader information it can use to drive the look.
 
 ![turningRed\_bathroom](/articles/how-to-texture-like-pixar/turningRed_bathroom.png)
 
-Or check out this behind the scenes look at Luca to see the details they include with the models. Cobblestones, cracks, edge details etc. These are real pieces of geometry instead of a displacement or bump texture.
+Or check out this behind the scenes look at Luca. They actually modeled individual cobblestones, cracks, edge details etc. These are real pieces of geometry instead of a displacement or bump texture.
 
 :video-player{url="https://www.youtube.com/watch?v=RGG0LAxazwg"}
 
@@ -54,35 +54,33 @@ Gaston Ugarte is a modeling artist at Pixar and a glance at his portfolio includ
 
 ### Why Geometry-Driven vs Texture-Driven?
 
-Pixar has thousands of objects that populate their films. It just isn't practical to manually UV Unwrap every object and apply custom texture maps. This means shaders are made to utilize data from the models to look a certain way.
+Pixar has thousands of objects that populate their films. It just isn't practical to manually UV Unwrap every object and apply custom texture maps for things like bolts, cracks, etc. This means shaders are made to utilize data from the models to look a certain way.
 
-Down below I have an example of two objects with the same material applied. Look at how the extra geometry helps with the procedural shader.
+Down below I have an example of two objects with the same material applied.
 
 ![geo\_details](/articles/how-to-texture-like-pixar/geo_details.png)
 
-These objects share the exact same material but the right side has additional details modeled in that the procedural shader can use. Elements like scratches on the edges or the rust in the crevices rely on this extra information.
+While the objects share the exact same material, you can see that the right side has additional details in the model that the procedural shader can use. Elements like scratches on the edges or the rust in the crevices rely on this extra information.
 
 ### Gathering Reference for Pixar Inspired Modeling
 
-I’ve found that the best reference for Pixar style scenes are miniatures. Pixar tends to use photorealistic materials with stylized proportions and bevels. Not stylized in a wonky Dr Suess kind of way but stylized in how they like to play with the scale of bevels and patterns.
+I’ve found that the best reference for Pixar style scenes are miniatures. Pixar tends to use photorealistic materials with stylized proportions and bevels.
 
 Look at these examples of miniature sets and see how they compare to Pixar scenes.
 
-Materials are photoreal but things like wood grains are very large, edges are much softer than real world counterparts and items aren’t aligned perfectly to one another.
-
 ![Miniatures](/articles/how-to-texture-like-pixar/Miniatures.png)
-
-They look as if a person was gluing them in by hand in a small space.
 
 Here are some screenshots from various Pixar films. You can see how similar the style really is.
 
 ![Pixar\_Miniatures](/articles/how-to-texture-like-pixar/Pixar_Miniatures.png)
 
+Materials react to light in a photoreal manner but patterns like wood grains are very large, edges are much softer than real world counterparts and items aren’t aligned perfectly to one another.
+
 #### Why does this matter?
 
-The size of the bevels, amount of details in the model and scale of patterns such as wood grain all feed into the procedural materials and contribute to the final look of an object.
+The size of the bevels, object alignment, amount of details in the model and scale of patterns such as wood grain all feed into the procedural materials and contribute to the final look of an object.
 
-Every part of the pipeline contributes to the final look of a render and must be accounted for if you are trying to emulate a certain look.
+Every part of the pipeline contributes to the render and must be accounted for if you are trying to emulate a certain look.
 
 ## Using Layered Materials
 
@@ -138,8 +136,7 @@ What is this useful for? Dirt of course! We can use ambient occlusion as a mask 
 
 ![AO%20Examples](/articles/how-to-texture-like-pixar/AO%20Examples.png)
 
-::video-player{url="https://www.youtube.com/watch?v=gQ3y4OGOSTc"}
-::
+:video-player{url="https://www.youtube.com/watch?v=gQ3y4OGOSTc"}
 
 ### Curvature
 
@@ -155,14 +152,21 @@ Here is a guide on targeting the edges in blender:
 
 ### Upward Facing
 
-Add things like dust or snow to the tops of your objects automatically. This is especially helpful when set dressing. In a traditional workflow, you cannot rotate an object around after these types of details have been painted.
+Add things like dust or snow to the tops of your objects automatically based on its rotation in the world. This is especially helpful when set dressing. In a traditional workflow, you cannot rotate an object around after these types of details have been painted because the textures are "baked in".
+
+![upward](/articles/how-to-texture-like-pixar/upward.png)
+
+Through proceduralism, you're free to rotate move and scale freely while the snow/dirt/moss updates in realtime.
+
+Here is the node graph I used for the example above
+
+![upward\_nodes](/articles/how-to-texture-like-pixar/upward_nodes.png)
 
 ### World Position
 
 Apply dirt or moss to the bottom of objects based on it’s location in the world.
 
-::video-player{url="https://www.youtube.com/watch?v=zMaZjx2JC_U"}
-::
+:video-player{url="https://www.youtube.com/watch?v=zMaZjx2JC_U"}
 
 ### Projection Mapping
 
@@ -170,8 +174,7 @@ If they don’t use UV Maps, how do they apply patterns to their objects? 
 
 Project them! This is typically referred to as “Triplanar Mapping” and it is essentially projecting a texture from all axes (XYZ) around your object and blending between them.
 
-::video-player{url="https://www.youtube.com/watch?v=vyNm3I16rHg"}
-::
+:video-player{url="https://www.youtube.com/watch?v=vyNm3I16rHg"}
 
 ### Procedural Noise Patterns
 

@@ -14,9 +14,9 @@ subtitle: Learn how Pixar gives their films life through procedural texturing te
 
 ## Introduction
 
-I love Pixar and all their movies. My daughter and I have watched Soul probably 10 times this week and we have seen all the classics.
+I love Pixar and all of their movies. My daughter and I have watched Soul probably 10 times this week and we have seen all the classics.
 
-As a former 3D artist I am amazed by all of their films. When I was a professional, I always tried to research the tools they use and how they build them. That’s why I came across this video years ago and it's been living rent free in my head ever since.
+When I was a professional 3D artist, I always tried to research the tools they used. That’s why I came across this video years ago and it's been living rent free in my head ever since.
 
 :video-player{url="https://www.youtube.com/watch?v=o_I6jxlN-Ck"}
 
@@ -84,21 +84,33 @@ Every part of the pipeline contributes to the render and must be accounted for i
 
 ## Using Layered Materials
 
-Objects in the real world are complex. The overall look of an object is often made up by more than one material.
+Objects in the real world are complex. Its overall look is often made up by more than one material.
 
 ![material\_layers\_example\_01](/articles/how-to-texture-like-pixar/material_layers_example_01.jpg)
 
 A base metal is covered with a red paint. The red paint is covered with rust, dirt, and dust. As 3D artist we can capture this several ways. Pixar (and many other studios) use a layered shader approach to build up these looks in their materials.
 
-Here is documentation on the pxrLayeredSurface. They love this workflow so much that they made a dedicated shader for it!
+Here is an image of a free material from [CC0 Textures](https://cc0-textures.com/t/cc0t-diamond-plate-006-c) 
 
-[pxrLayerSurface Documentation](https://rmanwiki-26.pixar.com/space/REN26/19661463/PxrLayerSurface)
+![Layers\_Example](/articles/how-to-texture-like-pixar/Layers_Example.png)
 
-This provides a good mental model of how we can build our shaders up. We can save each of these layers as separate materials and use them on many objects throughout our project (or other projects).
+This material is a collection of image files that are meant to be plugged directly into a shader node. 
+
+![layers\_nodes](/articles/how-to-texture-like-pixar/layers_nodes.png)
+
+This looks great and is easy to just plug into your single shader but it isn't very flexible. What if we want to change the flaking pattern? Or maybe we want red paint instead yellow? Or maybe we want the metal to be brass instead of steal?
 
 ![material\_layers](/articles/how-to-texture-like-pixar/material_layers.png)
 
+Instead of just making a single shader, make one for each material and blend between them using masks.
+
+This provides a good mental model of how we can build our shaders up. We can save each of these layers as separate materials and use them on many objects throughout our project (or other projects).
+
 This approach is very scalable. For instance, we can swap out the metal/rust layer for wood and change the mask and voila, we have painted wood instead of metal.
+
+Pixar loves this workflow so much that they made a dedicated shader for it!
+
+[pxrLayerSurface Documentation](https://rmanwiki-26.pixar.com/space/REN26/19661463/PxrLayerSurface)
 
 Here is a tutorial on how to do this in Blender:
 
@@ -152,9 +164,11 @@ Here is a guide on targeting the edges in blender:
 
 ### Upward Facing
 
-Add things like dust or snow to the tops of your objects automatically based on its rotation in the world. This is especially helpful when set dressing. In a traditional workflow, you cannot rotate an object around after these types of details have been painted because the textures are "baked in".
+Add things like dust or snow to the tops of your objects automatically. This is especially helpful when set dressing.
 
 ![upward](/articles/how-to-texture-like-pixar/upward.png)
+
+In a traditional workflow, you cannot rotate an object around after these types of details have been painted because the textures are "baked in".
 
 Through proceduralism, you're free to rotate move and scale freely while the snow/dirt/moss updates in realtime.
 
@@ -165,6 +179,8 @@ Here is the node graph I used for the example above
 ### World Position
 
 Apply dirt or moss to the bottom of objects based on it’s location in the world.
+
+![world\_position](/articles/how-to-texture-like-pixar/world_position.png)
 
 :video-player{url="https://www.youtube.com/watch?v=zMaZjx2JC_U"}
 

@@ -64,4 +64,15 @@ const { data: posts } = await useAsyncData('articles-recent', () =>
     queryCollection('articles').order('date', 'DESC').limit(5).all()
 );
 
+const title = post.value?.seo?.title || post.value?.title
+const description = post.value?.seo?.description || post.value?.description
+
+
+useSeoMeta({
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description
+})
+
 </script>
